@@ -1,0 +1,14 @@
+#login-form-id{
+    border: 2px solid;
+    border-color: cadetblue;
+    padding: 27px;
+}
+
+#form-header{
+    font-size: 40px;
+    font-family: serif;
+}
+#forgot_pwd{
+    float: right;
+    text-decoration: underline;
+}

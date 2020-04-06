@@ -1,0 +1,186 @@
+<form (ngSubmit)="onSubmit(reportForm); reportForm.reset()" #reportForm="ngForm">
+  <div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+      <ul class="list-unstyled components">
+        <!-- <li>
+        <a href="javascript:;">Admin-Add/Edit</a>
+      </li>
+      <li>
+        <a href="javascript:;">Admin-configure New Re..</a>
+      </li>
+      <li>
+        <a href="javascript:;">Admin -Configure Defaul..</a>
+      </li>
+      <li>
+        <a href="javascript:;">Admin-Edit Report</a>
+      </li>
+      <li>
+        <a href="javascript:;">Admin-Select Report</a>
+      </li> -->
+        <li *ngIf='ReportLink !== null'>
+          <a (click)="exportAsXLSX()" href="javascript:;">Download Report</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+          <button type="button" id="sidebarCollapse" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+          </button>
+          <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <h1>Report Generation </h1>
+            <ul class="nav navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="javascript:;" (click)="reload_home()">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:;" (click)="load_contact()">Contact us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:;" (click)="load_faq()">FAQ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:;" (click)="load_about()">About us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:;" (click)="logout()">Log out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="content-area">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-sm-12">
+
+              <div class="col-sm-6 one">
+                <h5 class="default-fileds">Default fields</h5>
+                <div class="col-sm-5">
+                  <select class="custom-select" multiple>
+                    <option [(value)]="country.name" *ngFor="let country of countries">{{country.name}}</option>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <ul class="nav navbar-nav drop-down-menu-inside arrows">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="javascript:;"> > </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;"> >> </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;">
+                        < </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;">
+                        << </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-sm-5">
+                  <select class="custom-select" multiple>
+                    <option value="1" selected>Inprogress</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6 two">
+                <h5 class="default-fileds">Default Filters</h5>
+                <div class="col-sm-5">
+
+                  <select class="form-control" name="filters_list">
+                    <option [(value)]="filters_list.name" *ngFor="let filters_list of filters">{{filters_list.name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-sm-4">
+                  <div class="btn-group">
+                    <select class="form-control">
+                      <option value="=" selected>=</option>
+                      <option value="<=">
+                        <=< /option>
+                      <option value=">=">>=</option>
+                      <option value="!=" selected>!=</option>
+                      <option value="like">Like</option>
+                      <option value=">Not like">Not like</option>
+                      <option value="Containe">Containe</option>
+                      <option value="Start With">Start With</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <input required ngModel type="text" class="form-control" id="filter_1" #filter_1="ngModel"
+                    name="filter_1" (change)=log(filter_1)>
+                </div>
+                <div class="alert alert-danger" *ngIf="filter_1.touched && !filter_1.valid">
+                  Default Filter name required
+                </div>
+                <span class="btn btn-secondary inx-filter-submit" onClick="return false;">Add Filter</span>
+              </div>
+            </div>
+          </div>
+          <div class="row onetime">
+            <div class="form-check-inline col-xs-4 col-sm-4  col-md-4 col-lg-4">
+              <label class="form-check-label" for="check1">
+                <input type="radio" class="form-radio-input" name="dateType" value="Onetime" checked>One
+                Time
+              </label>
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+              <ejs-datetimepicker id='datetimepicker_oneTime' placeholder='Select a date'>
+              </ejs-datetimepicker>
+            </div>
+            <div class="choosetime col-xs-4 col-sm-4  col-md-4 col-lg-4">
+            </div>
+          </div>
+
+          <div class="row recurring">
+            <div class="form-check-inline col-xs-4 col-sm-4  col-md-4 col-lg-4">
+              <label class="form-check-label" for="check2">
+                <input type="radio" class="form-radio-input" name="dateType" value="Recurring">Recurring
+              </label>
+            </div>
+            <div class="col-xs-4 col-sm-4  col-md-4 col-lg-4">
+              <ejs-datetimepicker id='datetimepicker_RecurringFrom' placeholder='Select a date'>
+              </ejs-datetimepicker>
+            </div>
+            <div class="col-xs-3 col-sm-3  col-md-3 col-lg-3">
+              <ejs-datetimepicker id='datetimepicker_RecurringTo' placeholder='Select a date'>
+              </ejs-datetimepicker>
+            </div>
+          </div>
+          <div class="row warningmsg">
+            <!-- <span>*Time Should be Mentioned in PST</span> -->
+          </div>
+          <input class="btn btn-primary inx-submit" type="submit" value="Submit" [disabled]="!reportForm.form.valid">
+          <div class="row col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="alert alert-success inx-submit" id="success-msg-res" *ngIf='ReportLink !== null'>
+              <strong>{{ReportLink}}</strong>
+            </div>
+            <div class="alert alert-danger inx-submit" *ngIf='errMsg !== null'>
+              <strong>{{errMsg}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>
